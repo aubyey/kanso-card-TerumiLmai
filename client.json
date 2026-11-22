@@ -1,0 +1,48 @@
+{
+  "name": "Terumi Lheion Imai",
+  "contactName": "Terumi Lheion Imai",
+  "role": "One Tap. Instant Connect.",
+  "bio": "",
+  "avatar": "./images/terumiProfile.jpg",
+  "phone": "+639152021404",
+  "branding": {
+    "tagline": "Fitness. Mountains. Wanderlust.",
+    "accent": "#D4D4D8",
+    "initials": "TI",
+    "verified": false
+  },
+  "quickActions": ["instagram", "facebook", "tiktok", "call", "sms", "share"],
+  "links": [
+    {
+      "label": "Instagram",
+      "subtitle": "@imaii_iiii",
+      "href": "https://www.instagram.com/imaii_iiii?cnvx=bDAzdnhsOWlobTh6",
+      "icon": "instagram"
+    },
+    {
+      "label": "Facebook & Messenger",
+      "subtitle": "Terumi Lheion Imai",
+      "href": "https://www.facebook.com/share/1F8Dj4A537/?mibextid=wwXIfr",
+      "icon": "facebook"
+    },
+    {
+      "label": "TikTok",
+      "subtitle": "@imaii_iiii",
+      "href": "https://www.tiktok.com/@imaii_iiii?_r=1&_t=ZS-9BVjfZMv0s6",
+      "icon": "tiktok"
+    },
+    {
+      "label": "Mobile",
+      "subtitle": "0915 202 1404",
+      "href": "tel:+639152021404",
+      "copy": "09152021404",
+      "icon": "phone"
+    }
+   
+  ],
+  "gallery": [
+    "./images/terumi1.jpg",
+    "./images/terumi2.jpg",
+    "./images/terumi3.jpg"
+  ]
+}

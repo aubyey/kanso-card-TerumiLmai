@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#08090a" />
+  <title>Ronald Ocampo — KANSO</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="ambientGlow" class="glow" aria-hidden="true"></div>
+
+  <!-- Top Bar -->
+  <header class="topbar">
+    <a href="#" class="brand" aria-label="KANSO">
+      <span class="brand__mark"></span>
+      <span class="brand__name">KANSO</span>
+    </a>
+    <button id="topQrBtn" class="iconbtn" type="button" aria-label="Show QR Code">
+      <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/>
+        <path d="M14 14h3v3h-3zM20 14v3h-3M14 20h7"/>
+      </svg>
+    </button>
+  </header>
+
+  <main>
+    <!-- Loading Skeleton -->
+    <div id="skeletonView" class="skeleton" aria-hidden="true">
+      <div class="skel skel--avatar"></div>
+      <div class="skel skel--line w70"></div>
+      <div class="skel skel--line w55"></div>
+      <div class="skel skel--line w40"></div>
+      <div class="skel skel--row"></div>
+      <div class="skel skel--row"></div>
+      <div class="skel skel--row"></div>
+    </div>
+
+    <!-- Error State -->
+    <section id="emptyView" class="empty" hidden>
+      <span class="empty__mark"></span>
+      <h1 class="empty__title">Profile Unavailable</h1>
+      <p id="emptyMsg" class="empty__text">Unable to load profile data.</p>
+    </section>
+
+    <!-- Main Profile Content -->
+    <div id="appView" hidden>
+      <!-- Hero Card -->
+      <section class="hero">
+        <div class="hero__glass" aria-hidden="true"></div>
+
+        <div class="hero__top">
+          <div class="avatar">
+            <img id="avatarImg" alt="" hidden />
+            <div id="avatarFallback" class="avatar__fallback">RO</div>
+          </div>
+
+          <div class="hero__id">
+            <h1 id="profileName" class="hero__name"></h1>
+            <p id="profileRole" class="hero__role"></p>
+          </div>
+        </div>
+
+        <p id="profileTagline" class="hero__tagline" hidden></p>
+        <p id="profileBio" class="hero__bio" hidden></p>
+      </section>
+
+      <!-- Quick Actions -->
+      <nav id="quickActions" class="quick" aria-label="Quick contact actions" hidden></nav>
+
+      <!-- Social Links Block -->
+      <section id="linksBlock" class="block" hidden>
+        <div class="block__head">
+          <h2 class="block__title">Connect</h2>
+          <span class="rule"></span>
+        </div>
+        <div id="linksList" class="links"></div>
+      </section>
+
+      <!-- Photo Gallery Block -->
+      <section id="galleryBlock" class="block" hidden>
+        <div class="block__head">
+          <h2 class="block__title">Gallery</h2>
+          <span class="rule"></span>
+        </div>
+        <div id="galleryGrid" class="gallery"></div>
+      </section>
+
+      <!-- KANSO Referral Footer -->
+      <footer class="foot">
+        <div class="foot__brand">
+          <span class="foot__mark"></span>
+          <span>SIMPLICITY, REFINED · KANSO</span>
+        </div>
+        <div class="foot__promo">
+          <span>Want a card like this?</span>
+          <a href="https://www.instagram.com/kansocard.ph?gwpx=MTZmMTRteHd5Z2FvNQ%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer">Instagram</a>
+          <span class="foot__dot">·</span>
+          <a href="https://www.facebook.com/share/1BfeaK8mdZ/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer">Facebook</a>
+        </div>
+      </footer>
+    </div>
+  </main>
+
+  <!-- Fixed Bottom Dock -->
+  <div id="bottomDock" class="dock" hidden>
+    <div id="tapHint" class="hint">
+      <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+      </svg>
+      <span>Tap to save contact to phone</span>
+    </div>
+
+    <button id="saveVcfBtn" class="btn btn--primary" type="button">
+      <span class="tapcue__ring" aria-hidden="true"></span>
+      <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/>
+      </svg>
+      <span>Save Contact</span>
+    </button>
+
+    <button id="dockShareBtn" class="btn btn--ghost btn--icon" type="button" aria-label="Share profile">
+      <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- QR Share Bottom Sheet -->
+  <div id="qrSheetWrap" class="sheetwrap" hidden>
+    <div class="backdrop" data-close-sheet="qrSheetWrap"></div>
+    <div class="sheet sheet--center" role="dialog" aria-modal="true" aria-labelledby="qrTitle" tabindex="-1">
+      <div class="sheet__handle"></div>
+      <div class="sheet__head">
+        <div>
+          <h2 id="qrTitle" class="sheet__title">Scan to Connect</h2>
+          <p class="sheet__sub">Backup QR code for phones without NFC.</p>
+        </div>
+        <button class="iconbtn iconbtn--sm" type="button" data-close-sheet="qrSheetWrap" aria-label="Close">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="qrbox">
+        <div id="qrFrame" class="qrbox__frame">
+          <div class="qrbox__skeleton"></div>
+        </div>
+        <p id="qrOwnerLabel" class="qrbox__hint"></p>
+        <p id="qrUrlLabel" class="qrbox__url"></p>
+        <button id="copyUrlBtn" class="btn btn--ghost btn--block mt8" type="button">Copy Profile Link</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Photo Lightbox (Swipe Only) -->
+  <div id="lightbox" class="lightbox" hidden>
+    <div id="lightboxCounter" class="lightbox__counter">1 / 3</div>
+    <button id="lightboxClose" class="iconbtn lightbox__close" type="button" aria-label="Close image">
+      <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+    <img id="lightboxImg" alt="Gallery preview" />
+  </div>
+
+  <!-- Toast Container -->
+  <div id="toastHost" class="toasts" aria-live="polite"></div>
+
+  <script>
+    let currentClient = null;
+    let lightboxIndex = 0;
+
+    const ICONS = {
+      phone: `<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>`,
+      sms: `<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>`,
+      facebook: `<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>`,
+      instagram: `<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>`,
+      tiktok: `<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>`,
+      viber: `<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>`,
+      telegram: `<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>`,
+      store: `<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l2-5h14l2 5"/><path d="M3 9v11a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V9"/><path d="M9 21v-6a3 3 0 0 1 6 0v6"/></svg>`,
+      globe: `<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>`,
+      mail: `<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="22,6 12,13 2,6"/></svg>`,
+      share: `<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>`,
+      copy: `<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>`,
+      check: `<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`,
+      chev: `<svg class="link__chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>`
+    };
+
+    async function boot() {
+      try {
+        const res = await fetch(`client.json?v=${Date.now()}`);
+        if (!res.ok) throw new Error("Failed to fetch client.json");
+        const client = await res.json();
+
+        currentClient = client;
+        renderClient(client);
+
+        document.getElementById("skeletonView").hidden = true;
+        document.getElementById("appView").hidden = false;
+        document.getElementById("bottomDock").hidden = false;
+
+        requestAnimationFrame(() => {
+          document.getElementById("ambientGlow").classList.add("glow--on");
+        });
+
+        setTimeout(() => {
+          const hint = document.getElementById("tapHint");
+          if (hint) hint.classList.add("is-out");
+        }, 5500);
+      } catch (err) {
+        console.error(err);
+        document.getElementById("skeletonView").hidden = true;
+        document.getElementById("emptyMsg").textContent = "Unable to load client.json. Make sure you are running on Live Server or Vercel.";
+        document.getElementById("emptyView").hidden = false;
+      }
+    }
+
+    function renderClient(c) {
+      const branding = c.branding || {};
+      if (branding.accent) {
+        document.documentElement.style.setProperty("--accent", branding.accent);
+      }
+
+      const displayName = c.name || "Kanso Profile";
+      document.title = `${displayName} — KANSO`;
+      document.getElementById("profileName").textContent = displayName;
+
+      const roleEl = document.getElementById("profileRole");
+      roleEl.innerHTML = escapeHtml(c.role || "");
+      if (branding.verified) {
+        roleEl.innerHTML += ` <span class="verif" title="Verified">${ICONS.check}</span>`;
+      }
+
+      const initials = branding.initials || displayName.split(/\s+/).map(w => w[0]).slice(0, 2).join("").toUpperCase();
+      const fallback = document.getElementById("avatarFallback");
+      fallback.textContent = initials;
+
+      if (c.avatar) {
+        const img = document.getElementById("avatarImg");
+        img.src = c.avatar;
+        img.alt = displayName;
+        img.onload = () => {
+          img.hidden = false;
+          fallback.classList.add("is-hidden");
+        };
+      }
+
+      if (branding.tagline) {
+        const tagEl = document.getElementById("profileTagline");
+        tagEl.textContent = branding.tagline;
+        tagEl.hidden = false;
+      }
+
+      if (c.bio) {
+        const bioEl = document.getElementById("profileBio");
+        bioEl.textContent = c.bio;
+        bioEl.hidden = false;
+      }
+
+      renderQuickActions(c);
+
+      if (Array.isArray(c.links) && c.links.length) {
+        const linksEl = document.getElementById("linksList");
+        linksEl.innerHTML = c.links.map(l => {
+          const targetUrl = l.href || "#";
+          const iconSvg = ICONS[l.icon] || ICONS.globe;
+
+          let copyValue = l.copy || "";
+          let copyLabel = l.label || "Details";
+
+          if (!copyValue && ["phone", "mail"].includes(l.icon)) {
+            if (l.icon === "mail") {
+              copyValue = c.email || l.subtitle || targetUrl.replace(/^mailto:/i, "");
+              copyLabel = "Email";
+            } else {
+              copyValue = (l.subtitle || c.phone || "").replace(/\s+/g, "");
+              copyLabel = l.label || "Phone number";
+            }
+          }
+
+          return `
+            <a class="link" href="${escapeHtml(targetUrl)}" target="_blank" rel="noopener noreferrer">
+              <span class="link__ico">${iconSvg}</span>
+              <span class="link__text">
+                <span class="link__label">${escapeHtml(l.label)}</span>
+                ${l.subtitle ? `<span class="link__sub">${escapeHtml(l.subtitle)}</span>` : ""}
+              </span>
+              ${copyValue ? `
+                <button type="button" class="link__copy"
+                  data-copy-val="${escapeHtml(copyValue)}"
+                  data-copy-label="${escapeHtml(copyLabel)}"
+                  aria-label="Copy ${escapeHtml(copyLabel)}">
+                  ${ICONS.copy}
+                  <span>Copy</span>
+                </button>
+              ` : ""}
+              ${ICONS.chev}
+            </a>
+          `;
+        }).join("");
+        document.getElementById("linksBlock").hidden = false;
+      }
+
+      if (Array.isArray(c.gallery) && c.gallery.length) {
+        const galEl = document.getElementById("galleryGrid");
+        galEl.innerHTML = c.gallery.map((src, idx) => `
+          <button type="button" class="shot" data-lightbox-index="${idx}">
+            <img src="${escapeHtml(src)}" alt="Gallery photo ${idx + 1}" loading="lazy" />
+          </button>
+        `).join("");
+        document.getElementById("galleryBlock").hidden = false;
+      }
+    }
+
+    function renderQuickActions(c) {
+      const cleanPhone = (c.phone || "").replace(/\s+/g, "");
+      const facebookHref = (c.links || []).find(l => l.icon === "facebook")?.href || "";
+      const instagramHref = (c.links || []).find(l => l.icon === "instagram")?.href || "";
+      const tiktokHref = (c.links || []).find(l => l.icon === "tiktok")?.href || "";
+
+      const actionMap = {
+        call: cleanPhone ? { label: "Call", icon: ICONS.phone, href: `tel:${cleanPhone}` } : null,
+        sms: cleanPhone ? { label: "SMS", icon: ICONS.sms, href: `sms:${cleanPhone}` } : null,
+        facebook: facebookHref ? { label: "Facebook", icon: ICONS.facebook, href: facebookHref } : null,
+        instagram: instagramHref ? { label: "Instagram", icon: ICONS.instagram, href: instagramHref } : null,
+        tiktok: tiktokHref ? { label: "TikTok", icon: ICONS.tiktok, href: tiktokHref } : null,
+        email: c.email ? { label: "Email", icon: ICONS.mail, href: `mailto:${c.email}` } : null,
+        share: { label: "Share", icon: ICONS.share, action: "share" }
+      };
+
+      const requested = Array.isArray(c.quickActions) && c.quickActions.length
+        ? c.quickActions
+        : ["instagram", "facebook", "call", "email", "sms", "share"];
+
+      const items = requested.map(key => actionMap[key]).filter(Boolean);
+      if (!items.length) return;
+
+      const nav = document.getElementById("quickActions");
+      nav.innerHTML = items.map(item => {
+        if (item.action === "share") {
+          return `
+            <button type="button" class="qbtn" data-trigger-share>
+              <span class="qbtn__disc">${item.icon}</span>
+              <span class="qbtn__label">${item.label}</span>
+            </button>
+          `;
+        }
+        return `
+          <a class="qbtn" href="${escapeHtml(item.href)}" target="_blank" rel="noopener">
+            <span class="qbtn__disc">${item.icon}</span>
+            <span class="qbtn__label">${item.label}</span>
+          </a>
+        `;
+      }).join("");
+      nav.hidden = false;
+    }
+
+    document.getElementById("saveVcfBtn").addEventListener("click", () => {
+      if (!currentClient) return;
+      const c = currentClient;
+      const fullName = c.name || "Contact";
+      const nameParts = fullName.split(/\s+/);
+      const first = nameParts[0] || "";
+      const last = nameParts.slice(1).join(" ");
+      const igLink = (c.links || []).find(l => l.icon === "instagram")?.href || "";
+
+      const vcard = [
+        "BEGIN:VCARD",
+        "VERSION:3.0",
+        `N:${last};${first};;;`,
+        `FN:${fullName}`,
+        c.role ? `TITLE:${c.role}` : "",
+        c.phone ? `TEL;TYPE=CELL,VOICE:${c.phone}` : "",
+        c.phone2 ? `TEL;TYPE=CELL,VOICE:${c.phone2}` : "",
+        c.email ? `EMAIL;TYPE=INTERNET:${c.email}` : "",
+        igLink ? `URL:${igLink}` : "",
+        `NOTE:${c.bio || "Saved via KANSO Digital Card"}`,
+        "END:VCARD"
+      ].filter(Boolean).join("\r\n");
+
+      const blob = new Blob([vcard], { type: "text/vcard;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${fullName.replace(/[^a-z0-9]+/gi, "_")}.vcf`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      toast("Contact card downloaded");
+    });
+
+    function openSheet(id) {
+      const wrap = document.getElementById(id);
+      if (!wrap) return;
+      wrap.hidden = false;
+      document.body.classList.add("is-locked");
+      requestAnimationFrame(() => wrap.classList.add("is-open"));
+    }
+
+    function closeSheet(id) {
+      const wrap = document.getElementById(id);
+      if (!wrap) return;
+      wrap.classList.remove("is-open");
+      document.body.classList.remove("is-locked");
+      setTimeout(() => { wrap.hidden = true; }, 380);
+    }
+
+    function updateLightboxImage() {
+      const gallery = currentClient?.gallery || [];
+      if (!gallery.length) return;
+      lightboxIndex = (lightboxIndex + gallery.length) % gallery.length;
+      document.getElementById("lightboxImg").src = gallery[lightboxIndex];
+      document.getElementById("lightboxCounter").textContent = `${lightboxIndex + 1} / ${gallery.length}`;
+    }
+
+    function openLightbox(index) {
+      const gallery = currentClient?.gallery || [];
+      if (!gallery.length) return;
+      lightboxIndex = index;
+      updateLightboxImage();
+      const lb = document.getElementById("lightbox");
+      lb.hidden = false;
+      document.body.classList.add("is-locked");
+      requestAnimationFrame(() => lb.classList.add("is-open"));
+    }
+
+    function closeLightbox() {
+      const lb = document.getElementById("lightbox");
+      lb.classList.remove("is-open");
+      document.body.classList.remove("is-locked");
+      setTimeout(() => { lb.hidden = true; }, 220);
+    }
+
+    document.addEventListener("click", async (e) => {
+      const copyBtn = e.target.closest("[data-copy-val]");
+      if (copyBtn) {
+        e.preventDefault();
+        e.stopPropagation();
+        const val = copyBtn.getAttribute("data-copy-val");
+        const label = copyBtn.getAttribute("data-copy-label") || "Details";
+        await copyText(val);
+        toast(`${label} copied: ${val}`);
+        return;
+      }
+
+      const closeTarget = e.target.closest("[data-close-sheet]");
+      if (closeTarget) {
+        closeSheet(closeTarget.getAttribute("data-close-sheet"));
+        return;
+      }
+
+      if (e.target.closest("[data-trigger-share]") || e.target.closest("#dockShareBtn")) {
+        shareProfile();
+        return;
+      }
+
+      const shotBtn = e.target.closest("[data-lightbox-index]");
+      if (shotBtn) {
+        openLightbox(Number(shotBtn.getAttribute("data-lightbox-index")));
+      }
+    });
+
+    document.getElementById("topQrBtn").addEventListener("click", () => {
+      const shareUrl = window.location.href;
+      const qrApi = `https://api.qrserver.com/v1/create-qr-code/?size=480x480&margin=12&data=${encodeURIComponent(shareUrl)}`;
+      document.getElementById("qrOwnerLabel").textContent = currentClient?.name || "KANSO Digital Card";
+      document.getElementById("qrUrlLabel").textContent = shareUrl;
+      document.getElementById("qrFrame").innerHTML = `<img src="${qrApi}" alt="QR Code for ${escapeHtml(shareUrl)}" />`;
+      openSheet("qrSheetWrap");
+    });
+
+    document.getElementById("copyUrlBtn").addEventListener("click", async () => {
+      await copyText(window.location.href);
+      toast("Profile link copied!");
+    });
+
+    const lbEl = document.getElementById("lightbox");
+    document.getElementById("lightboxClose").addEventListener("click", closeLightbox);
+
+    lbEl.addEventListener("click", (e) => {
+      if (e.target === lbEl) closeLightbox();
+    });
+
+    let touchStartX = 0;
+    lbEl.addEventListener("touchstart", (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    lbEl.addEventListener("touchend", (e) => {
+      const diff = touchStartX - e.changedTouches[0].screenX;
+      if (Math.abs(diff) > 40) {
+        lightboxIndex += diff > 0 ? 1 : -1;
+        updateLightboxImage();
+      }
+    }, { passive: true });
+
+    document.addEventListener("keydown", (e) => {
+      if (lbEl.hidden) return;
+      if (e.key === "Escape") closeLightbox();
+      if (e.key === "ArrowLeft") { lightboxIndex--; updateLightboxImage(); }
+      if (e.key === "ArrowRight") { lightboxIndex++; updateLightboxImage(); }
+    });
+
+    async function shareProfile() {
+      const title = document.title;
+      const url = window.location.href;
+      if (navigator.share) {
+        try {
+          await navigator.share({ title, url });
+          return;
+        } catch (_) {}
+      }
+      await copyText(url);
+      toast("Profile link copied!");
+    }
+
+    async function copyText(text) {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(text);
+      } else {
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        ta.style.position = "fixed";
+        ta.style.opacity = "0";
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        document.body.removeChild(ta);
+      }
+    }
+
+    function toast(message) {
+      const host = document.getElementById("toastHost");
+      host.innerHTML = `<div class="toast">${ICONS.check}<span>${escapeHtml(message)}</span></div>`;
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(() => { host.innerHTML = ""; }, 2600);
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    boot();
+  </script>
+</body>
+</html>
